@@ -1,0 +1,185 @@
+<%- include('../partials/header') %>
+
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 text-slate-100 font-sans">
+ <%- include('../partials/flash')%>
+  <!-- Topbar -->
+  <header class="sticky top-0 z-40 backdrop-blur bg-slate-900/70 border-b border-white/10 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-500 to-pink-500 grid place-items-center shadow-lg shadow-purple-700/40">
+          <i class="bi bi-egg-fried text-white text-lg"></i>
+        </div>
+        <h1 class="text-lg sm:text-xl font-bold tracking-wide">✨ Add New Menu Item</h1>
+      </div>
+
+      <a href="/dashboard#menu"
+         class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-white/10 hover:border-purple-400/40 hover:bg-slate-800/40 transition-all">
+        <i class="bi bi-grid"></i><span>Back to Dashboard</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Page -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+      <!-- Form Card -->
+      <section class="rounded-2xl shadow-2xl border border-white/10 bg-slate-900/50 backdrop-blur-xl p-6 sm:p-10 relative overflow-hidden">
+        <!-- Glow background -->
+        <div class="absolute -top-20 -right-20 w-72 h-72 bg-purple-500/30 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-16 -left-16 w-60 h-60 bg-pink-500/20 rounded-full blur-2xl"></div>
+
+        <div class="relative flex items-center justify-between mb-8">
+          <div>
+            <h2 class="text-2xl font-bold">Menu Details</h2>
+            <p class="text-slate-400 text-sm mt-1">Fill in details to add a premium new dish.</p>
+          </div>
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-200 border border-purple-500/30 text-xs">
+            <i class="bi bi-stars"></i> Premium
+          </span>
+        </div>
+
+        <form action="/menus/add" method="POST" class="space-y-6 relative" id="menuForm">
+          <div>
+            <label class="block text-sm mb-2">Name</label>
+            <input type="text" name="name" id="name"
+                   placeholder="e.g. Chicken Karahi"
+                   required
+                   class="w-full px-4 py-3 rounded-xl bg-slate-800/70 border border-white/10 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent placeholder-slate-500 transition-all">
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-sm mb-2">Price (Rs)</label>
+              <input type="number" name="price" id="price" min="1" step="1"
+                     placeholder="e.g. 650"
+                     required
+                     class="w-full px-4 py-3 rounded-xl bg-slate-800/70 border border-white/10 focus:ring-2 focus:ring-pink-500 placeholder-slate-500">
+            </div>
+
+            <div>
+              <label class="block text-sm mb-2">Category</label>
+              <input type="text" name="category" id="category"
+                     placeholder="e.g. Karahi, BBQ"
+                     class="w-full px-4 py-3 rounded-xl bg-slate-800/70 border border-white/10 focus:ring-2 focus:ring-pink-500 placeholder-slate-500">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm mb-2">Image URL</label>
+            <input type="url" name="image" id="image"
+                   placeholder="https://example.com/image.jpg"
+                   required
+                   class="w-full px-4 py-3 rounded-xl bg-slate-800/70 border border-white/10 focus:ring-2 focus:ring-pink-500 placeholder-slate-500">
+            <p class="text-xs text-slate-400 mt-1">Paste a direct food image URL (JPG/PNG/WebP).</p>
+          </div>
+
+          <div>
+            <label class="block text-sm mb-2">Short Description</label>
+            <textarea name="description" id="description" rows="4"
+                      placeholder="Tempting short description…"
+                      required
+                      class="w-full px-4 py-3 rounded-xl bg-slate-800/70 border border-white/10 focus:ring-2 focus:ring-pink-500 placeholder-slate-500"></textarea>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <input id="featured" name="featured" type="checkbox"
+                   class="w-5 h-5 rounded border-white/20 bg-slate-800 text-pink-500 focus:ring-pink-500">
+            <label for="featured" class="text-sm text-slate-300">Mark as featured</label>
+          </div>
+
+          <div class="pt-3 flex flex-col sm:flex-row gap-4">
+            <button type="submit"
+              class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:scale-105 active:scale-95 transition-transform shadow-lg shadow-pink-600/30">
+              <i class="bi bi-plus-circle"></i>
+              <span>Create Item</span>
+            </button>
+
+            <a href="/dashboard#menu"
+               class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-slate-800/60 hover:bg-slate-700 border border-white/10 transition">
+              <i class="bi bi-arrow-left"></i>
+              <span>Cancel</span>
+            </a>
+          </div>
+        </form>
+      </section>
+
+      <!-- Live Preview -->
+      <aside class="rounded-2xl shadow-2xl border border-white/10 bg-slate-900/60 backdrop-blur-xl p-6 sm:p-8 relative overflow-hidden">
+        <div class="absolute -top-16 right-0 w-64 h-64 bg-purple-400/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 -left-20 w-48 h-48 bg-pink-500/20 rounded-full blur-2xl"></div>
+
+        <div class="relative flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold">Live Preview</h2>
+          <span class="text-xs text-slate-400">Updates in real-time</span>
+        </div>
+
+        <div class="group rounded-2xl overflow-hidden border border-white/10 bg-slate-900/40 shadow-lg transform transition hover:scale-[1.02] hover:shadow-pink-500/20">
+          <div class="relative">
+            <img id="previewImage"
+                 src="https://images.unsplash.com/photo-1604908177522-04071c2f57c9?w=1200&q=80&auto=format&fit=crop"
+                 alt="Preview"
+                 class="w-full h-60 object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
+              <div>
+                <h3 id="previewName" class="text-lg sm:text-xl font-bold">Item Name</h3>
+                <p id="previewCategory" class="text-xs text-slate-300/70 mt-0.5">Category</p>
+              </div>
+              <span id="previewPrice"
+                    class="px-3 py-1 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-sm">
+                Rs 0
+              </span>
+            </div>
+          </div>
+          <div class="p-5">
+            <p id="previewDescription" class="text-slate-300 text-sm">
+              Description will appear here…
+            </p>
+            <div class="mt-5 flex items-center justify-end">
+              <button disabled
+                class="px-5 py-2 rounded-xl border border-white/10 bg-slate-800/60 text-slate-400 cursor-not-allowed inline-flex items-center gap-2">
+                <i class="bi bi-bag-plus"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Live Preview Script -->
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    const inputs = {
+      name: $("name"),
+      price: $("price"),
+      image: $("image"),
+      description: $("description"),
+      category: $("category")
+    };
+
+    const preview = {
+      name: $("previewName"),
+      price: $("previewPrice"),
+      image: $("previewImage"),
+      description: $("previewDescription"),
+      category: $("previewCategory")
+    };
+
+    const update = () => {
+      preview.name.textContent = inputs.name.value || "Item Name";
+      const p = parseInt(inputs.price.value || 0, 10);
+      preview.price.textContent = "Rs " + (isNaN(p) ? 0 : p.toLocaleString());
+      preview.description.textContent = inputs.description.value || "Description will appear here…";
+      preview.category.textContent = inputs.category.value || "Category";
+
+      const url = inputs.image.value.trim();
+      if (url) preview.image.src = url;
+    };
+
+    Object.values(inputs).forEach(el => el.addEventListener("input", update));
+    update();
+  </script>
+</body>

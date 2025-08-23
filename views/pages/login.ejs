@@ -1,0 +1,46 @@
+<%- include('../partials/header') %>
+
+<body class="min-h-screen bg-gradient-to-tr from-yellow-200 via-orange-300 to-red-400 font-sans relative">
+<%- include('../partials/flash')%>
+  <!-- Background food image -->
+  <div class="absolute inset-0 bg-cover bg-center"
+       style="background-image: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092');"></div>
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black/40"></div>
+
+  <!-- Navbar -->
+
+
+  <!-- Login Wrapper (Centering) -->
+  <div class="relative z-10 flex items-center justify-center min-h-[calc(100vh-80px)] px-4">
+    
+    <!-- Login Card -->
+    <div class="bg-white/30 backdrop-blur-xl rounded-3xl shadow-2xl p-10 w-96 border border-white/20">
+      
+      <!-- Logo -->
+      <div class="flex flex-col items-center mb-6">
+        <div class="bg-red-600 text-white text-3xl font-extrabold px-6 py-2 rounded-lg shadow-lg flex items-center gap-2">
+          🍔 Yummy
+        </div>
+        <p class="text-white mt-4 text-center text-sm">Welcome back! Login to manage your restaurant orders 🍕🥗</p>
+      </div>
+
+      <!-- Form -->
+      <form action="/login" method="POST" class="flex flex-col gap-5">
+        <input type="text" name="username" placeholder="username" required
+               class="px-4 py-3 rounded-xl bg-white/20 placeholder-white/80 text-white focus:outline-none focus:ring-2 focus:ring-red-500">
+        <input type="password" name="password" placeholder="Password" required
+               class="px-4 py-3 rounded-xl bg-white/20 placeholder-white/80 text-white focus:outline-none focus:ring-2 focus:ring-red-500">
+        <button type="submit"
+                class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition transform hover:scale-105 shadow-lg flex items-center justify-center gap-2">
+          🍽️ Login
+        </button>
+      </form>
+
+      <p class="text-white text-center mt-5 text-sm">Don't have an account? 
+        <a href="/signup" class="text-yellow-300 font-semibold hover:text-yellow-100">Sign Up</a>
+      </p>
+    </div>
+  </div>
+</body>

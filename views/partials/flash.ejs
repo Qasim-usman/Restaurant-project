@@ -1,0 +1,11 @@
+<% if (success && success.length) { %>
+  <div class="max-w-xl mx-auto mt-4 p-4 flex items-center justify-between bg-green-100 text-green-800 rounded-xl shadow-lg">
+    ✅ <span><%= success %></span>
+  </div>
+<% } %>
+
+<% if (error && error.length) { %>
+  <div class="max-w-xl mx-auto mt-4 p-4 flex items-center justify-between bg-red-100 text-red-800 rounded-xl shadow-lg">
+    ⚠️ <span><%= error %></span>
+  </div>
+<% } %>

@@ -1,0 +1,252 @@
+<%- include('../partials/header') %>
+
+<body class="relative min-h-screen flex items-center justify-center bg-gray-900">
+ <%- include('../partials/flash')%>
+  <!-- Background image with overlay -->
+  <div class="absolute inset-0" style="height: 116vh;">
+    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Restaurant Background" class="w-full h-full object-cover opacity-60">
+    <div class="absolute inset-0 bg-gradient-to-br from-red-900/70 via-orange-800/50 to-yellow-600/60"></div>
+    
+    <!-- Floating food elements for restaurant touch -->
+    <div class="absolute top-10 left-10 text-6xl animate-float opacity-30">🍕</div>
+    <div class="absolute top-20 right-20 text-5xl animate-float-delayed opacity-25">🍔</div>
+    <div class="absolute bottom-20 left-20 text-4xl animate-bounce-slow opacity-30">🍝</div>
+    <div class="absolute bottom-10 right-10 text-5xl animate-float opacity-25">🥘</div>
+    <div class="absolute top-1/2 left-5 text-3xl animate-pulse opacity-20">🍗</div>
+    <div class="absolute top-1/3 right-5 text-4xl animate-float-delayed opacity-25">🥗</div>
+  </div>
+
+  <!-- Centering Container -->
+  <div class="relative z-10 w-full min-h-screen flex items-center justify-center p-4" >
+    
+    <!-- Login Card -->
+    <div class="bg-white/95 backdrop-blur-sm p-12 rounded-3xl shadow-2xl w-full max-w-md mx-auto my-auto animate-fadeIn border-2 border-orange-200">
+      
+      <!-- Restaurant branding header -->
+      <div class="text-center mb-6">
+        <div class="text-4xl mb-2">🍽️</div>
+        <h1 class="text-3xl font-extrabold text-gray-800 animate-bounceIn">Admin Login</h1>
+        <p class="text-orange-600 font-medium text-sm mt-2">Restaurant Management Portal</p>
+      </div>
+
+      <!-- Error message -->
+      <% if (error) { %>
+        <div class="bg-red-50 border border-red-200 text-red-600 text-center p-3 rounded-lg mb-4 animate-shake">
+          <i class="fas fa-exclamation-triangle mr-2"></i><%= error %>
+        </div>
+      <% } %>
+
+      <form action="/admin" method="POST" class="flex flex-col gap-5 w-full">
+        
+        <!-- Username field with restaurant icon -->
+        <div class="relative">
+          <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-orange-500">
+            <i class="fas fa-user-tie"></i>
+          </div>
+          <input 
+            type="text" 
+            name="username" 
+            placeholder="Username" 
+            required 
+            class="w-full border border-gray-300 pl-12 pr-4 py-4 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition duration-300 hover:scale-105 text-base bg-gray-50 focus:bg-white">
+        </div>
+        
+        <!-- Password field with restaurant icon -->
+        <div class="relative">
+          <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-orange-500">
+            <i class="fas fa-key"></i>
+          </div>
+          <input 
+            type="password" 
+            name="password" 
+            placeholder="Password" 
+            required 
+            class="w-full border border-gray-300 pl-12 pr-4 py-4 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition duration-300 hover:scale-105 text-base bg-gray-50 focus:bg-white">
+        </div>
+        
+        <!-- Login button with restaurant styling -->
+        <button 
+          type="submit" 
+          class="bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold py-4 px-6 rounded-xl hover:from-orange-600 hover:to-red-700 hover:scale-105 transition transform shadow-lg flex items-center justify-center gap-2">
+          <i class="fas fa-utensils"></i>
+          Enter Restaurant Dashboard
+        </button>
+      </form>
+
+      <!-- Additional restaurant touch -->
+      <div class="mt-6 text-center">
+        <p class="text-gray-500 text-sm">🍴 Manage your delicious empire 🍴</p>
+      </div>
+    </div>
+  </div>
+  <%- include('../partials/footer') %>
+  <!-- Enhanced Animations with restaurant theme -->
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.6s forwards;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: translateY(-50px); opacity: 0; }
+      60% { transform: translateY(10px); opacity: 1; }
+      100% { transform: translateY(0); }
+    }
+    .animate-bounceIn {
+      animation: bounceIn 0.8s forwards;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+    }
+    .animate-shake {
+      animation: shake 0.5s;
+    }
+
+    /* Restaurant-themed floating animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(10deg); }
+    }
+    .animate-float {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float-delayed {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-25px) rotate(-10deg); }
+    }
+    .animate-float-delayed {
+      animation: float-delayed 5s ease-in-out infinite 1s;
+    }
+
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    .animate-bounce-slow {
+      animation: bounce-slow 3s ease-in-out infinite;
+    }
+
+    /* Glassmorphism effect */
+    .backdrop-blur-sm {
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    /* Additional responsive styles */
+    @media (max-width: 640px) {
+      .animate-float, .animate-float-delayed, .animate-bounce-slow {
+        display: none; /* Hide floating elements on small screens */
+      }
+      
+      .bg-white\/95 {
+        margin: 20px;
+        padding: 2rem;
+      }
+    }
+
+    /* Loading button effect */
+    .loading {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .loading::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      margin: auto;
+      border: 2px solid transparent;
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Focus effects */
+    input:focus {
+      box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.1);
+    }
+
+    /* Smooth transitions */
+    * {
+      transition: all 0.3s ease;
+    }
+
+    /* Custom scrollbar if needed */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #f97316, #dc2626);
+      border-radius: 10px;
+    }
+  </style>
+
+  <!-- Optional JavaScript for enhanced functionality -->
+  <script>
+    // Form submission loading state
+    document.querySelector('form').addEventListener('submit', function(e) {
+      const button = this.querySelector('button[type="submit"]');
+      button.classList.add('loading');
+      button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+    });
+
+    // Input field animations
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement.classList.add('scale-105');
+      });
+      
+      input.addEventListener('blur', function() {
+        this.parentElement.classList.remove('scale-105');
+      });
+    });
+
+    // Welcome message after successful login (if needed)
+    function showWelcomeMessage() {
+      const toast = document.createElement('div');
+      toast.className = 'fixed top-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg z-50 animate-fadeIn';
+      toast.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Welcome to Restaurant Dashboard!';
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
+    // Add some interactive elements
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add hover effect to floating food items
+      document.querySelectorAll('[class*="animate-float"]').forEach(element => {
+        element.addEventListener('mouseenter', function() {
+          this.style.transform = 'scale(1.2) rotate(20deg)';
+          this.style.transition = 'transform 0.3s ease';
+        });
+        
+        element.addEventListener('mouseleave', function() {
+          this.style.transform = '';
+        });
+      });
+    });
+  </script>
+
+
+</body>

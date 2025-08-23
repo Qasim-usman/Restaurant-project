@@ -1,0 +1,122 @@
+<%- include('../partials/header') %>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Cart | Foodie Restaurant</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body class="relative font-poppins text-gray-100">
+
+  <!-- ✅ HEADER INCLUDE -->
+  
+   <%- include('../partials/flash')%>
+
+  <!-- 🔥 Background image with dark overlay -->
+  <div class="absolute inset-0">
+    <img src="https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg" alt="Restaurant Background" class="w-full h-full object-cover">
+    <div class="absolute inset-0 bg-black/70"></div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="relative z-10 max-w-7xl mx-auto px-4 py-10" style="padding-top: 7rem;">
+    <div class="margin" ></div>
+    <!-- PAGE TITLE -->
+    <div class="text-center mb-10 animate__animated animate__fadeInDown">
+      <h1 class="text-4xl md:text-5xl font-bold text-yellow-400 flex items-center justify-center gap-3 drop-shadow-lg">
+        <i class="fa-solid fa-basket-shopping"></i> My Cart
+      </h1>
+      <p class="text-gray-300 mt-2">Freshly prepared delights waiting for you 🍽️</p>
+    </div>
+
+    <!-- GRID -->
+    <div class="grid md:grid-cols-3 gap-6">
+      
+      <!-- 🛒 CART ITEMS -->
+      <section class="md:col-span-2 space-y-6">
+        <% if(cart.length === 0){ %>
+          <div class="bg-white/10 backdrop-blur-md rounded-2xl p-10 text-center animate__animated animate__fadeInUp shadow-xl">
+            <i class="fa-regular fa-face-frown text-5xl text-yellow-400 mb-4"></i>
+            <h2 class="text-xl font-semibold">Your cart is empty!</h2>
+            <a href="/#menu" class="inline-block mt-6 px-6 py-3 rounded-xl bg-yellow-500 hover:bg-yellow-600 transition text-white font-semibold shadow-lg">
+              <i class="fa-solid fa-utensils"></i> Browse Menu
+            </a>
+          </div>
+        <% } else { %>
+          <% cart.forEach(function(item, index){ %>
+            <div class="flex items-center bg-white/10 backdrop-blur-md rounded-2xl p-4 shadow-xl animate__animated animate__fadeInUp">
+              
+              <!-- IMAGE -->
+              <div class="w-24 h-24 flex-shrink-0 overflow-hidden rounded-xl">
+                <img src="<%= item.productId.image %>" alt="<%= item.productId.name %>" class="w-full h-full object-cover transform hover:scale-110 transition duration-300">
+              </div>
+
+              <!-- DETAILS -->
+              <div class="flex-1 px-4">
+                <h3 class="font-semibold text-lg text-white"><%= item.productId.name %></h3>
+                <p class="text-gray-300 text-sm"><%= item.productId.description || '' %></p>
+
+                <!-- Quantity Controls -->
+                <div class="flex items-center gap-2 mt-2">
+                  <form action="/cart/decrease/<%= item.productId._id %>" method="POST">
+                    <button class="w-8 h-8 rounded-full bg-gray-700 hover:bg-yellow-500 transition text-white"><i class="fa-solid fa-minus"></i></button>
+                  </form>
+                  <span class="font-semibold text-white"><%= item.quantity %></span>
+                  <form action="/cart/increase/<%= item.productId._id %>" method="POST">
+                    <button class="w-8 h-8 rounded-full bg-gray-700 hover:bg-yellow-500 transition text-white"><i class="fa-solid fa-plus"></i></button>
+                  </form>
+                </div>
+              </div>
+
+              <!-- PRICE + REMOVE -->
+              <div class="text-right">
+                <p class="text-yellow-400 font-bold">Rs <%= item.productId.price * item.quantity %></p>
+                <form action="/cart/remove/<%= item._id %>?_method=DELETE" method="POST">
+                  <button class="mt-2 text-red-400 hover:text-red-600 transition"><i class="fa-solid fa-trash"></i></button>
+                </form>
+              </div>
+            </div>
+          <% }) %>
+        <% } %>
+      </section>
+
+      <!-- 📦 ORDER SUMMARY -->
+      <aside class="bg-white/10 backdrop-blur-md rounded-2xl p-6 shadow-2xl animate__animated animate__fadeInRight">
+        <h2 class="text-2xl font-bold mb-6 text-yellow-400 flex items-center gap-2">
+          <i class="fa-solid fa-receipt"></i> Order Summary
+        </h2>
+
+        <% let total = 0; cart.forEach(i => total += i.productId.price * i.quantity); %>
+        <div class="space-y-3 text-gray-400">
+          <div class="flex justify-between">
+            <span class="text-gray-400">Subtotal</span>
+            <span class="text-gray-200">Rs <%= total %></span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-400">Delivery</span>
+            <span class="text-gray-200">Rs 200</span>
+          </div>
+          <hr class="border-gray-700">
+          <div class="flex justify-between font-semibold text-gray-200 text-lg">
+            <span class="text-gray-400">Tax</span>
+            <span class="text-gray-100">Rs <%= total + 50 %></span>
+          </div>
+          <hr class="border-gray-800">
+          <div class="flex justify-between font-bold text-white text-xl">
+            <span>Total</span>
+            <span class="text-yellow-400">Rs <%= total + 100 %></span>
+          </div>
+        </div>
+
+        <a href="/checkout" class="block text-center mt-6 px-6 py-3 rounded-xl bg-yellow-500 hover:bg-yellow-600 transition text-white font-semibold shadow-lg animate__animated animate__pulse animate__infinite">
+          Proceed to Checkout <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </aside>
+    </div>
+  </main>
+
+  <!-- ✅ FOOTER INCLUDE (optional) -->
+  <%- include('../partials/footer') %>
+</body>
+</html>

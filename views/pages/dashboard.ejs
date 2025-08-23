@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 font-sans min-h-screen">
+
+  <div class="flex h-screen overflow-hidden relative">
+
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden hidden transition-opacity duration-300"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="bg-gradient-to-b from-slate-800/95 to-slate-900/95 w-64 sm:w-72 shadow-2xl flex-shrink-0 fixed lg:relative z-50 h-full flex flex-col border-r border-slate-700/50 backdrop-blur-xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+      <button id="sidebar-close" class="lg:hidden absolute top-3 right-3 text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-700/50 transition-all duration-200">
+        <span class="material-icons text-xl">close</span>
+      </button>
+      
+      <div class="px-4 sm:px-6 py-4 sm:py-6 border-b border-slate-700/50">
+        <div class="text-xl sm:text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          ✨ AdminPanel
+        </div>
+        <div class="text-xs text-slate-400 mt-1">Premium Dashboard</div>
+      </div>
+
+      <nav class="flex-1 px-3 sm:px-4 space-y-2 sm:space-y-3 mt-4 sm:mt-6 overflow-y-auto">
+        <button class="sidebar-btn w-full text-left flex items-center px-3 sm:px-4 py-3 sm:py-4 text-slate-300 rounded-xl hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-600/20 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] backdrop-blur-sm border border-transparent hover:border-purple-500/30" data-target="dashboard">
+          <span class="material-icons mr-2 sm:mr-3 text-purple-400 text-xl sm:text-2xl">dashboard</span> 
+          <span class="font-medium text-sm sm:text-base">Dashboard</span>
+        </button>
+        <button class="sidebar-btn w-full text-left flex items-center px-3 sm:px-4 py-3 sm:py-4 text-slate-300 rounded-xl hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-600/20 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] backdrop-blur-sm border border-transparent hover:border-purple-500/30" data-target="orders">
+          <span class="material-icons mr-2 sm:mr-3 text-pink-400 text-xl sm:text-2xl">shopping_cart</span> 
+          <span class="font-medium text-sm sm:text-base">Orders</span>
+        </button>
+        <button class="sidebar-btn w-full text-left flex items-center px-3 sm:px-4 py-3 sm:py-4 text-slate-300 rounded-xl hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-600/20 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] backdrop-blur-sm border border-transparent hover:border-purple-500/30" data-target="menu">
+          <span class="material-icons mr-2 sm:mr-3 text-blue-400 text-xl sm:text-2xl">menu_book</span> 
+          <span class="font-medium text-sm sm:text-base">Menu</span>
+        </button>
+        <button class="sidebar-btn w-full text-left flex items-center px-3 sm:px-4 py-3 sm:py-4 text-slate-300 rounded-xl hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-600/20 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] backdrop-blur-sm border border-transparent hover:border-purple-500/30" data-target="users">
+          <span class="material-icons mr-2 sm:mr-3 text-green-400 text-xl sm:text-2xl">people</span> 
+          <span class="font-medium text-sm sm:text-base">Users</span>
+        </button>
+      </nav>
+
+      <div class="p-3 sm:p-4 border-t border-slate-700/50">
+        <div class="text-xs text-slate-400 text-center">
+          <div class="w-full h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mb-2"></div>
+          Premium Edition
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-auto">
+
+      <header class="flex items-center justify-between bg-slate-800/80 backdrop-blur-xl shadow-xl px-3 sm:px-6 py-3 sm:py-5 border-b border-slate-700/50">
+        <div class="flex items-center space-x-2 sm:space-x-4">
+          <button id="sidebar-toggle" class="lg:hidden relative w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 flex items-center justify-center group hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 focus:outline-none">
+            <div class="hamburger-lines">
+              <span class="hamburger-line block w-4 sm:w-5 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full transition-all duration-300"></span>
+              <span class="hamburger-line block w-4 sm:w-5 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full transition-all duration-300 mt-1"></span>
+              <span class="hamburger-line block w-4 sm:w-5 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full transition-all duration-300 mt-1"></span>
+            </div>
+          </button>
+          <h1 class="text-lg sm:text-2xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent" id="section-title">Dashboard</h1>
+        </div>
+        <div class="flex items-center space-x-2 sm:space-x-4">
+          <div class="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-pulse"></div>
+          <span class="text-slate-300 text-xs sm:text-sm">Live</span>
+          <form action="/admin/logout" method="Get">
+  <button 
+    class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium 
+           rounded-lg sm:rounded-xl 
+           bg-gradient-to-r from-red-500/80 to-pink-500/80 
+           text-white shadow-md 
+           hover:from-red-600 hover:to-pink-600 
+           hover:shadow-red-500/30 
+           transition-all duration-300 
+           active:scale-95">
+    Logout
+  </button>
+</form>
+
+        </div>
+      </header>
+
+      <main class="p-3 sm:p-6 flex-1 space-y-4 sm:space-y-8">
+
+        <!-- Dashboard Cards -->
+        <div id="dashboard" class="tab-content">
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+            <div class="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl shadow-2xl rounded-xl sm:rounded-2xl p-3 sm:p-6 hover:shadow-purple-500/20 hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] active:scale-[0.98] border border-slate-700/50 group">
+              <div class="flex items-center justify-between mb-2 sm:mb-4">
+                <h2 class="text-slate-400 text-xs sm:text-sm font-medium">Total Orders</h2>
+                <span class="material-icons text-purple-400 group-hover:rotate-12 transition-transform duration-300 text-lg sm:text-2xl">shopping_cart</span>
+              </div>
+              <p class="text-xl sm:text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"> <%= orders.length %></p>
+              <div class="mt-1 sm:mt-2 text-xs text-green-400">↗ +12% from last month</div>
+            </div>
+
+            <div class="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl shadow-2xl rounded-xl sm:rounded-2xl p-3 sm:p-6 hover:shadow-green-500/20 hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] active:scale-[0.98] border border-slate-700/50 group">
+              <div class="flex items-center justify-between mb-2 sm:mb-4">
+                <h2 class="text-slate-400 text-xs sm:text-sm font-medium">Active Users</h2>
+                <span class="material-icons text-green-400 group-hover:rotate-12 transition-transform duration-300 text-lg sm:text-2xl">people</span>
+              </div>
+              <p class="text-xl sm:text-3xl font-bold bg-gradient-to-r from-green-400 to-lime-400 bg-clip-text text-transparent"> <%= users.length %></p>
+              <div class="mt-1 sm:mt-2 text-xs text-green-400">↗ +5% from last month</div>
+            </div>
+
+            <div class="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl shadow-2xl rounded-xl sm:rounded-2xl p-3 sm:p-6 hover:shadow-pink-500/20 hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] active:scale-[0.98] border border-slate-700/50 group">
+              <div class="flex items-center justify-between mb-2 sm:mb-4">
+                <h2 class="text-slate-400 text-xs sm:text-sm font-medium">Menu Items</h2>
+                <span class="material-icons text-pink-400 group-hover:rotate-12 transition-transform duration-300 text-lg sm:text-2xl">menu_book</span>
+              </div>
+              <p class="text-xl sm:text-3xl font-bold bg-gradient-to-r from-pink-400 to-red-400 bg-clip-text text-transparent"><%=menus.length %></p>
+              <div class="mt-1 sm:mt-2 text-xs text-green-400">↗ +3% from last month</div>
+            </div>
+
+            <div class="bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl shadow-2xl rounded-xl sm:rounded-2xl p-3 sm:p-6 hover:shadow-blue-500/20 hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] active:scale-[0.98] border border-slate-700/50 group">
+              <div class="flex items-center justify-between mb-2 sm:mb-4">
+                <h2 class="text-slate-400 text-xs sm:text-sm font-medium">Revenue</h2>
+                <span class="material-icons text-blue-400 group-hover:rotate-12 transition-transform duration-300 text-lg sm:text-2xl">attach_money</span>
+              </div>
+              <p class="text-xl sm:text-3xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">  Rs <%= totalRevenue.toLocaleString() %></p>
+              <div class="mt-1 sm:mt-2 text-xs text-green-400">↗ +8% from last month</div>
+            </div>
+          </div>
+
+          <!-- Chart -->
+          <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl p-4 sm:p-6 shadow-2xl border border-slate-700/50">
+            <canvas id="dashboardChart" class="w-full h-64 sm:h-80"></canvas>
+          </div>
+        </div>
+
+        <!-- Other Tabs Placeholder -->
+<!-- Orders Tab (Step-by-step with Real Total Calculation) -->
+<!-- Orders Tab (Step-by-step with Real Total Calculation + Delete Btn + Payment, Address + Date/Time) -->
+<div id="orders" class="tab-content hidden space-y-6">
+  <% if (orders && orders.length) { %>
+    <% orders.forEach(order => { 
+         let calculatedTotal = 0;
+    %>
+      <div class="bg-slate-800/90 backdrop-blur-xl rounded-2xl shadow-xl p-6 border border-slate-700 relative">
+        
+        <!-- Delete Button -->
+        <form action="/orders/<%= order._id %>?_method=DELETE" method="POST" 
+              onsubmit="return confirm('Are you sure you want to delete this order?')" 
+              class="absolute top-3 right-3">
+          <button type="submit" 
+                  class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg text-sm shadow-md" 
+                  style="transition: background-color 0.3s, transform 0.2s;">
+            Delete
+          </button>
+        </form>
+
+        <!-- STEP 1: Order ID & Date/Time -->
+        <div class="mb-4">
+          <div class="text-purple-400 font-semibold break-all">Order ID: <%= order._id %></div>
+          
+          <% if (order.createdAt) { 
+               const orderDate = new Date(order.createdAt);
+               const options = { year: 'numeric', month: 'short', day: 'numeric' };
+               const formattedDate = orderDate.toLocaleDateString('en-US', options);
+               const formattedTime = orderDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+          %>
+            <div class="text-slate-400 text-sm mt-1">
+              Date: <span class="text-slate-200 font-semibold"><%= formattedDate %></span> | 
+              Time: <span class="text-slate-200 font-semibold"><%= formattedTime %></span>
+            </div>
+          <% } %>
+        </div>
+
+        <!-- STEP 2: User Name -->
+        <div class="mb-2">
+          <div class="text-slate-200 font-medium">
+            Customer: 
+            <%= (order.user && order.user.name) 
+                ? order.user.name 
+                : (order.shippingDetails ? order.shippingDetails.fullName : 'N/A') %>
+          </div>
+        </div>
+
+        <!-- STEP 3: Payment Method -->
+        <div class="mb-2">
+          <div class="text-slate-400">
+            Payment: 
+            <span class="text-slate-200 font-semibold">
+              <%= order.paymentMethod || 'Not Provided' %>
+            </span>
+          </div>
+        </div>
+
+        <!-- STEP 4: Address -->
+        <div class="mb-4">
+          <div class="text-slate-400">Address:</div>
+          <div class="text-slate-200 text-sm leading-relaxed mt-1">
+            <%= order.shippingDetails ? order.shippingDetails.address : 'N/A' %><br>
+            <%= order.shippingDetails ? order.shippingDetails.city : '' %>, 
+            <%= order.shippingDetails ? order.shippingDetails.state : '' %> 
+            <%= order.shippingDetails ? order.shippingDetails.zip : '' %>
+          </div>
+        </div>
+
+        <!-- STEP 5: Items (Image + Name + Qty + Line Total) -->
+        <div class="mb-2">
+          <div class="space-y-3">
+            <% order.items.forEach(item => { 
+                 const unit = (item.productId && item.productId.price) ? item.productId.price : (item.price || 0);
+                 const qty = item.quantity || 1;
+                 const lineTotal = unit * qty;
+                 calculatedTotal += lineTotal;
+            %>
+              <div class="grid grid-cols-1 sm:grid-cols-12 items-center gap-3 bg-slate-700/40 rounded-xl p-3">
+                
+                <!-- Image -->
+                <div class="sm:col-span-2">
+                  <img src="<%= item.productId && item.productId.image ? item.productId.image : '/images/placeholder.png' %>" 
+                       alt="<%= item.productId && item.productId.name ? item.productId.name : 'Item' %>" 
+                       class="w-16 h-16 rounded-lg object-cover shadow-md">
+                </div>
+
+                <!-- Item Name -->
+                <div class="sm:col-span-4">
+                  <div class="text-slate-200 font-medium">
+                    <%= (item.productId && item.productId.name) ? item.productId.name : 'Item' %>
+                  </div>
+                </div>
+
+                <!-- Qty -->
+                <div class="sm:col-span-3">
+                  <div class="text-slate-400">
+                    Qty: <span class="text-slate-200 font-semibold"><%= qty %></span>
+                  </div>
+                </div>
+
+                <!-- Item Total -->
+                <div class="sm:col-span-3 sm:text-right">
+                  <div class="font-bold text-emerald-400">Rs <%= lineTotal %></div>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+
+        <!-- FINAL: Order Total (Real Calculation) -->
+        <div class="mt-5 pt-4 border-t border-slate-700 flex justify-between">
+          <div class="text-slate-400">Order Total</div>
+          <div class="text-2xl font-bold text-emerald-400">Rs <%= calculatedTotal %></div>
+        </div>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <div class="text-center text-slate-400 font-medium">No Orders Found</div>
+  <% } %>
+</div>
+
+
+<!-- Menu Tab -->
+<div id="menu" class="tab-content hidden">
+
+  <!-- Top Bar with Add Menu Button -->
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-xl font-bold text-slate-200">Menu</h2>
+    <a href="/menus/add" 
+       class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-xl shadow-md text-sm md:text-base transition">
+      + Add Menu
+    </a>
+  </div>
+
+  <!-- Menu Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <% if (menus.length > 0) { %>
+      <% menus.forEach(menu => { %>
+        <div class="relative bg-slate-800/90 backdrop-blur-xl rounded-2xl shadow-lg overflow-hidden hover:shadow-purple-500/20 hover:scale-105 transition duration-300">
+          
+          <!-- Delete Button -->
+          <form action="/menus/<%= menu._id %>?_method=DELETE" method="POST"
+                onsubmit="return confirm('Are you sure you want to delete this menu item?')"
+                class="absolute top-3 right-3 z-10">
+            <button type="submit" 
+                    class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded-lg text-xs shadow-md">
+              Delete
+            </button>
+          </form>
+
+          <!-- Image -->
+          <img src="<%= menu.image %>" alt="<%= menu.name %>" class="w-full h-40 md:h-48 object-cover">
+
+          <!-- Info -->
+          <div class="p-4 text-center">
+            <div class="font-semibold text-slate-200 text-base md:text-lg truncate"><%= menu.name %></div>
+            <div class="text-green-400 mt-1 font-medium">Rs <%= menu.price %></div>
+          </div>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <div class="text-slate-400 font-medium text-lg col-span-full text-center">No Menu Items Found</div>
+    <% } %>
+  </div>
+</div>
+
+
+<!-- Users Tab -->
+
+<div id="users" class="tab-content hidden">
+  <div class="flex flex-col items-center justify-center py-20">
+    <!-- Construction SVG Icon -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-24 h-24 text-yellow-400 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 16v-2m8-8h-2M6 12H4m14.364 7.364l-1.414-1.414M6.05 6.05 4.636 4.636m12.728 0L16.95 6.05M6.05 17.95l-1.414 1.414" />
+    </svg>
+    
+    <h2 class="text-2xl font-bold text-yellow-400 mt-4">👷 Coming Soon</h2>
+    <p class="text-slate-400 mt-2">We are building this section, stay tuned!</p>
+  </div>
+</div>
+      </main>
+    </div>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    // Sidebar toggle
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebarClose = document.getElementById('sidebar-close');
+
+    function openSidebar() {
+      sidebar.classList.remove('-translate-x-full');
+      sidebarOverlay.classList.remove('hidden');
+    }
+
+    function closeSidebar() {
+      sidebar.classList.add('-translate-x-full');
+      sidebarOverlay.classList.add('hidden');
+    }
+
+    sidebarToggle.addEventListener('click', openSidebar);
+    sidebarClose.addEventListener('click', closeSidebar);
+    sidebarOverlay.addEventListener('click', closeSidebar);
+
+    // Tab navigation
+    const sidebarBtns = document.querySelectorAll('.sidebar-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const sectionTitle = document.getElementById('section-title');
+
+    sidebarBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.target;
+
+        tabContents.forEach(tc => tc.classList.add('hidden'));
+        document.getElementById(target).classList.remove('hidden');
+
+        sectionTitle.textContent = btn.textContent.trim();
+
+        // Close sidebar on mobile
+        if(window.innerWidth < 1024){
+          closeSidebar();
+        }
+      });
+    });
+
+    // Dashboard Chart
+    const ctx = document.getElementById('dashboardChart').getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(128, 90, 213, 0.7)');
+    gradient.addColorStop(1, 'rgba(128, 90, 213, 0.1)');
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],
+        datasets: [{
+          label: 'Revenue',
+          data: [3000, 4000, 3200, 4500, 5000, 4800, 6000],
+          backgroundColor: gradient,
+          borderColor: '#8E44AD',
+          borderWidth: 3,
+          tension: 0.4,
+          fill: true,
+          pointBackgroundColor: '#fff',
+          pointBorderColor: '#8E44AD',
+          pointHoverRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          x: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#fff' } },
+          y: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#fff' } }
+        }
+      }
+    });
+
+    // Swipe for mobile
+    let touchStartX = null;
+    let touchStartY = null;
+
+    document.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    });
+
+    document.addEventListener('touchend', e => {
+      if (!touchStartX || !touchStartY) return;
+
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+
+      if (Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX > 50 && window.innerWidth < 1024 && sidebar.classList.contains('-translate-x-full')) {
+          openSidebar();
+        } else if (diffX < -50 && window.innerWidth < 1024 && !sidebar.classList.contains('-translate-x-full')) {
+          closeSidebar();
+        }
+      }
+
+      touchStartX = null;
+      touchStartY = null;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RiQas Bistro</title>
+  <!-- Tailwind -->
+   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <style>
+    /* Smooth mobile dropdown animation */
+    #mobile-menu {
+      transition: all 0.3s ease-in-out;
+    }
+    /* User dropdown animation */
+    #user-dropdown {
+      transition: all 0.3s ease-in-out;
+      transform-origin: top right;
+    }
+    #mobile-user-dropdown {
+      transition: all 0.3s ease-in-out;
+    }
+    .anchor{
+      padding-left: 1.6rem;
+    }
+  </style>
+  <script>
+    // Mobile Menu Toggle
+    function toggleMenu() {
+      document.getElementById("mobile-menu").classList.toggle("hidden");
+    }
+
+    // User Dropdown Toggle (Desktop)
+    function toggleUserDropdown() {
+      const dropdown = document.getElementById("user-dropdown");
+      dropdown.classList.toggle("hidden");
+      dropdown.classList.toggle("opacity-0");
+      dropdown.classList.toggle("scale-95");
+    }
+
+    // User Dropdown Toggle (Mobile)
+    function toggleMobileUserDropdown() {
+      const dropdown = document.getElementById("mobile-user-dropdown");
+      dropdown.classList.toggle("hidden");
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(event) {
+      const userIcon = document.getElementById("user-icon");
+      const dropdown = document.getElementById("user-dropdown");
+      const mobileUserIcon = document.getElementById("mobile-user-icon");
+      const mobileDropdown = document.getElementById("mobile-user-dropdown");
+
+      if (!userIcon?.contains(event.target) && !dropdown?.contains(event.target)) {
+        dropdown?.classList.add("hidden", "opacity-0", "scale-95");
+      }
+
+      if (!mobileUserIcon?.contains(event.target) && !mobileDropdown?.contains(event.target)) {
+        mobileDropdown?.classList.add("hidden");
+      }
+    });
+  </script>
+</head>
+<body class="font-sans">
+  <!-- Navbar -->
+  <nav class="bg-white/80 backdrop-blur-md shadow-md sticky top-0 z-50" style="z-index: 1000;">
+    <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
+      <!-- Logo -->
+      <a href="/">
+        <h1 class="text-2xl font-bold text-red-600">RiQas Bistro</h1>
+      </a>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center space-x-4">
+        <a href="/" class="text-gray-800 hover:text-red-600 font-medium transition anchor">Home</a>
+        <a href="/#menu" class="text-gray-800 hover:text-red-600 font-medium transition anchor">Menu</a>
+        <a href="/#contact" class="text-gray-800 hover:text-red-600 font-medium transition anchor">Contact</a>
+
+        
+          <a href="/admin" class="text-white bg-red-600 hover:bg-red-700 font-semibold px-4 py-2 rounded-lg transition shadow-md hover:shadow-lg" style="margin-left: 2rem;">
+            Admin
+          </a>
+      
+
+        <!-- Cart Icon -->
+        <a href="/cart" class="relative text-gray-800 hover:text-red-600 transition" style="margin-left: 1.6rem;">
+          <i class="bi bi-cart3 text-2xl"></i>
+          <% if (cartCount > 0) { %>
+            <span class="absolute -top-2 -right-3 bg-red-600 text-white text-xs rounded-full px-2 py-0.5">
+              <%= cartCount %>
+            </span>
+          <% } %>
+        </a>
+
+        <!-- User Profile Dropdown -->
+        <div class="relative">
+          <button id="user-icon" onclick="toggleUserDropdown()" class="text-gray-800 hover:text-red-600 transition focus:outline-none" style="margin-left: 1.6rem;">
+            <i class="bi bi-person-circle" style="font-size: 1.7rem;"></i>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div id="user-dropdown" class="hidden opacity-0 scale-95 absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-50">
+            <% if (currentUser) { %>
+              <form action="/logout" method="POST">
+                <button type="submit" class="w-full text-left flex items-center px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition">
+                  <i class="bi bi-box-arrow-right mr-3"></i> Logout
+                </button>
+              </form>
+            <% } else { %>
+              <a href="/login" class="flex items-center px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition">
+                <i class="bi bi-box-arrow-in-right mr-3"></i> Login
+              </a>
+              <a href="/signup" class="flex items-center px-4 py-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition">
+                <i class="bi bi-person-plus mr-3"></i> Sign Up
+              </a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Button -->
+      <button onclick="toggleMenu()" class="md:hidden text-gray-800 text-3xl focus:outline-none">☰</button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white/95 shadow-md">
+      <ul class="flex flex-col space-y-4 p-4">
+        <li><a href="/" class="text-gray-800 hover:text-red-600 font-medium transition">Home</a></li>
+        <li><a href="#menu" class="text-gray-800 hover:text-red-600 font-medium transition">Menu</a></li>
+        <li><a href="#contact" class="text-gray-800 hover:text-red-600 font-medium transition">Contact</a></li>
+
+        <!-- Premium Admin Link (Mobile) -->
+        
+          <li>
+            <a href="/admin" class="text-white bg-red-600 hover:bg-red-700 font-semibold px-4 py-2 rounded-lg transition shadow-md hover:shadow-lg">
+              Admin
+            </a>
+          </li>
+       
+
+        <li>
+          <a href="/cart" class="relative text-gray-800 hover:text-red-600 transition">
+            <i class="bi bi-cart3 text-2xl"></i>
+            <% if (cartCount > 0) { %>
+              <span class="absolute -top-2 -right-3 bg-red-600 text-white text-xs rounded-full px-2 py-0.5">
+                <%= cartCount %>
+              </span>
+            <% } %>
+          </a>
+        </li>
+
+        <!-- Mobile User Profile Dropdown -->
+        <li>
+          <div class="relative">
+            <button id="mobile-user-icon" onclick="toggleMobileUserDropdown()" class="text-gray-800 hover:text-red-600 transition focus:outline-none flex items-center">
+              <i class="bi bi-person-circle" style="font-size: 1.7rem;"></i>
+              <i class="bi bi-chevron-down ml-2 text-sm"></i>
+            </button>
+            <div id="mobile-user-dropdown" class="hidden mt-2 ml-4 space-y-2">
+              <% if (currentUser) { %>
+                <form action="/logout" method="POST">
+                  <button type="submit" class="w-full text-left flex items-center py-2 text-gray-700 hover:text-red-600 transition">
+                    <i class="bi bi-box-arrow-right mr-3"></i> Logout
+                  </button>
+                </form>
+              <% } else { %>
+                <a href="/login" class="flex items-center py-2 text-gray-700 hover:text-red-600 transition">
+                  <i class="bi bi-box-arrow-in-right mr-3"></i> Login
+                </a>
+                <a href="/signup" class="flex items-center py-2 text-gray-700 hover:text-red-600 transition">
+                  <i class="bi bi-person-plus mr-3"></i> Sign Up
+                </a>
+              <% } %>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</body>
+</html>
