@@ -10,8 +10,7 @@
 <body class="relative font-poppins text-gray-100">
 
   <!-- ✅ HEADER INCLUDE -->
-  
-   <%- include('../partials/flash')%>
+  <%- include('../partials/flash')%>
 
   <!-- 🔥 Background image with dark overlay -->
   <div class="absolute inset-0">
@@ -45,38 +44,48 @@
           </div>
         <% } else { %>
           <% cart.forEach(function(item, index){ %>
-            <div class="flex items-center bg-white/10 backdrop-blur-md rounded-2xl p-4 shadow-xl animate__animated animate__fadeInUp">
-              
-              <!-- IMAGE -->
-              <div class="w-24 h-24 flex-shrink-0 overflow-hidden rounded-xl">
-                <img src="<%= item.productId.image %>" alt="<%= item.productId.name %>" class="w-full h-full object-cover transform hover:scale-110 transition duration-300">
-              </div>
+            <% if(item.productId) { %>
+              <div class="flex items-center bg-white/10 backdrop-blur-md rounded-2xl p-4 shadow-xl animate__animated animate__fadeInUp">
+                
+                <!-- IMAGE -->
+                <div class="w-24 h-24 flex-shrink-0 overflow-hidden rounded-xl">
+                  <img src="<%= item.productId.image %>" alt="<%= item.productId.name %>" class="w-full h-full object-cover transform hover:scale-110 transition duration-300">
+                </div>
 
-              <!-- DETAILS -->
-              <div class="flex-1 px-4">
-                <h3 class="font-semibold text-lg text-white"><%= item.productId.name %></h3>
-                <p class="text-gray-300 text-sm"><%= item.productId.description || '' %></p>
+                <!-- DETAILS -->
+                <div class="flex-1 px-4">
+                  <h3 class="font-semibold text-lg text-white"><%= item.productId.name %></h3>
+                  <p class="text-gray-300 text-sm"><%= item.productId.description || '' %></p>
 
-                <!-- Quantity Controls -->
-                <div class="flex items-center gap-2 mt-2">
-                  <form action="/cart/decrease/<%= item.productId._id %>" method="POST">
-                    <button class="w-8 h-8 rounded-full bg-gray-700 hover:bg-yellow-500 transition text-white"><i class="fa-solid fa-minus"></i></button>
-                  </form>
-                  <span class="font-semibold text-white"><%= item.quantity %></span>
-                  <form action="/cart/increase/<%= item.productId._id %>" method="POST">
-                    <button class="w-8 h-8 rounded-full bg-gray-700 hover:bg-yellow-500 transition text-white"><i class="fa-solid fa-plus"></i></button>
+                  <!-- Quantity Controls -->
+                  <div class="flex items-center gap-2 mt-2">
+                    <form action="/cart/decrease/<%= item.productId._id %>" method="POST">
+                      <button class="w-8 h-8 rounded-full bg-gray-700 hover:bg-yellow-500 transition text-white"><i class="fa-solid fa-minus"></i></button>
+                    </form>
+                    <span class="font-semibold text-white"><%= item.quantity %></span>
+                    <form action="/cart/increase/<%= item.productId._id %>" method="POST">
+                      <button class="w-8 h-8 rounded-full bg-gray-700 hover:bg-yellow-500 transition text-white"><i class="fa-solid fa-plus"></i></button>
+                    </form>
+                  </div>
+                </div>
+
+                <!-- PRICE + REMOVE -->
+                <div class="text-right">
+                  <p class="text-yellow-400 font-bold">Rs <%= item.productId.price * item.quantity %></p>
+                  <form action="/cart/remove/<%= item._id %>?_method=DELETE" method="POST">
+                    <button class="mt-2 text-red-400 hover:text-red-600 transition"><i class="fa-solid fa-trash"></i></button>
                   </form>
                 </div>
               </div>
-
-              <!-- PRICE + REMOVE -->
-              <div class="text-right">
-                <p class="text-yellow-400 font-bold">Rs <%= item.productId.price * item.quantity %></p>
+            <% } else { %>
+              <!-- Fallback if product is missing -->
+              <div class="flex items-center justify-between bg-red-500/20 text-red-300 p-4 rounded-xl">
+                <span>⚠ Product not available (removed from menu)</span>
                 <form action="/cart/remove/<%= item._id %>?_method=DELETE" method="POST">
-                  <button class="mt-2 text-red-400 hover:text-red-600 transition"><i class="fa-solid fa-trash"></i></button>
+                  <button class="text-red-400 hover:text-red-600 transition"><i class="fa-solid fa-trash"></i></button>
                 </form>
               </div>
-            </div>
+            <% } %>
           <% }) %>
         <% } %>
       </section>
@@ -87,7 +96,7 @@
           <i class="fa-solid fa-receipt"></i> Order Summary
         </h2>
 
-        <% let total = 0; cart.forEach(i => total += i.productId.price * i.quantity); %>
+        <% let total = 0; cart.forEach(i => { if(i.productId) total += i.productId.price * i.quantity }); %>
         <div class="space-y-3 text-gray-400">
           <div class="flex justify-between">
             <span class="text-gray-400">Subtotal</span>

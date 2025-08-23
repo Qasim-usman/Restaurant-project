@@ -37,7 +37,7 @@ router.post("/login", (req, res, next) => {
 });
 
 
-router.get("/logout",(req, res, next) => {
+router.post("/logout",(req, res, next) => {
     req.logout(err => {
         if(err) return next(err);
         res.redirect('/');
