@@ -1,3 +1,4 @@
+
 require('dotenv').config();
 const express = require('express');
 const router = express.Router();
@@ -62,6 +63,7 @@ router.post('/admin', (req, res, next) => {
     });
   })(req, res, next);
 });
+console.log("Admin:", process.env.ADMIN_USERNAME, process.env.ADMIN_PASSWORD);
 
 router.get('/admin/logout', (req, res, next) => {
   req.logout(err => {

@@ -48,22 +48,25 @@ app.use(async (req, res, next) => {
   res.locals.error = req.flash("error");
   res.locals.success = req.flash("success");
 
-  if (req.user) {
-    try {
+  try {
+    if (req.user && !req.user.isAdmin) {
+      // ✅ Sirf normal users ke liye cart fetch hoga
       const cart = await Cart.findOne({ user: req.user._id });
       res.locals.cartCount = cart
         ? cart.items.reduce((sum, item) => sum + item.quantity, 0)
         : 0;
-    } catch (err) {
-      console.error("Error fetching cart count:", err);
+    } else {
+      // ✅ Admin ke liye hamesha 0
       res.locals.cartCount = 0;
     }
-  } else {
+  } catch (err) {
+    console.error("Error fetching cart count:", err);
     res.locals.cartCount = 0;
   }
 
   next();
 });
+
 // Routes
 const adminRoutes = require('./routes/admin');
 const userRoutes = require('./routes/user');
@@ -109,6 +112,6 @@ app.get('/', (req, res) => {
     res.send('Home Page');
 });
 
-app.listen(PORT, () => {
-    console.log('Server running on http://localhost:3000');
+app.listen(3000, "0.0.0.0", () => {
+  console.log("Server running on http://localhost:3000");
 });
